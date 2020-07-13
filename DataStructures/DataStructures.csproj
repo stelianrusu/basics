@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Basics.AlgoTests\**" />
+    <EmbeddedResource Remove="Basics.AlgoTests\**" />
+    <None Remove="Basics.AlgoTests\**" />
+  </ItemGroup>
+
+</Project>

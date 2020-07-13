@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures", "DataStructures\DataStructures.csproj", "{26073164-5727-4FFA-91C4-9CBD77CB7B73}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basics.AlgoTests", "DataStructures.Tests\Basics.AlgoTests.csproj", "{ACF94C16-516F-4D12-A113-89EEE38E1EAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26073164-5727-4FFA-91C4-9CBD77CB7B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26073164-5727-4FFA-91C4-9CBD77CB7B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26073164-5727-4FFA-91C4-9CBD77CB7B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26073164-5727-4FFA-91C4-9CBD77CB7B73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACF94C16-516F-4D12-A113-89EEE38E1EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACF94C16-516F-4D12-A113-89EEE38E1EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACF94C16-516F-4D12-A113-89EEE38E1EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACF94C16-516F-4D12-A113-89EEE38E1EAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CE1EEAA9-48CE-43C9-A9C6-71EA35863FEC}
+	EndGlobalSection
+EndGlobal
