@@ -26,15 +26,15 @@ namespace Basics.AlgoTests
             vertices[0].Neighbors = new [] { vertices[1], vertices[2]};
 
             graph.AddVertices(vertices);
-
-            RecursiveDFS recursiveDFS = new RecursiveDFS();
-
             var visitedVertices = new List<Vertex>();
-            recursiveDFS.TraverseFrom(graph, vertices[0], v =>
-            {
+
+            DFSRecursive visitor = new DFSRecursive();
+            visitor.OnVertexVisited += (sender, v) => {
                 _output.WriteLine(v.Label);
                 visitedVertices.Add(v);
-            });
+            };
+            visitor.TraverseGraphFrom(graph, graph.Vertices[0]);
+
 
             Assert.Equal(3,visitedVertices.Count);
 
@@ -53,14 +53,15 @@ namespace Basics.AlgoTests
 
             graph.AddVertices(vertices);
 
-            DFSWithStack recursiveDFS = new DFSWithStack();
-
+            DFSWithStack visitor = new DFSWithStack();
             var visitedVertices = new List<Vertex>();
-            recursiveDFS.TraverseFrom(graph, vertices[0], v =>
-            {
+
+            visitor.OnVertexVisited += (sender, v) => {
                 _output.WriteLine(v.Label);
                 visitedVertices.Add(v);
-            });
+            };
+
+            visitor.TraverseGraphFrom(graph, vertices[0]);
 
             Assert.Equal(6, visitedVertices.Count);
 
