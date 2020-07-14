@@ -2,31 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using DataStructures.Graphs.Models;
+using DataStructures.Graphs.Models.Generics;
+using DataStructures.Graphs.Utils;
 
 namespace DataStructures.Graphs.Alg
 {
-    public class DFSRecursive : IDFSAlgorithm
+    public class DFSRecursive<T> : IDFSAlgorithm<T>
     {
-        private bool[] _visited;
-        private Dictionary<Vertex, int> _vertexOrder;
+        private Dictionary<Vertex<T>, bool> visitedDictionary;
 
-        public void TraverseGraphFrom(IGraph graph, Vertex start, Action<Vertex> onVisitAction)
+        public void TraverseGraphFrom(IGraph<T> graph, Vertex<T> start, Action<Vertex<T>> onVisitAction)
         {
-            this._visited = new bool[graph.Vertices.Count];
-            this._vertexOrder = graph.Vertices
-                .Select((item, i) => (Vertice: item, OrderedIndex: i)).ToList()
-                .ToDictionary(v => v.Vertice, v => v.OrderedIndex);
-            
+            visitedDictionary = graph.ConstructVisitedDictionary();
+
             Recursion(start, onVisitAction);
         }
 
-        private void Recursion(Vertex currentVertex, Action<Vertex> onVisitAction)
+        private void Recursion(Vertex<T> currentVertex, Action<Vertex<T>> onVisitAction)
         {
-            if (_visited[_vertexOrder[currentVertex]])
+            if (visitedDictionary[currentVertex])
                     return;
 
             onVisitAction(currentVertex);
-            _visited[_vertexOrder[currentVertex]] = true;
+            visitedDictionary[currentVertex] = true;
             foreach (var neighbor in currentVertex.Neighbors)
                 Recursion(neighbor, onVisitAction);
         }

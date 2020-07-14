@@ -4,23 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataStructures.Graphs.Models;
+using DataStructures.Graphs.Models.Generics;
 
 namespace DataStructures.Graphs.Alg
 {
-    public class ComponentFinder
+    public class ComponentFinder<T>
     {
-        private readonly IDFSAlgorithm _dfs;
+        private readonly IDFSAlgorithm<T> _dfs;
 
-        public ComponentFinder(IDFSAlgorithm dfs)
+        public ComponentFinder(IDFSAlgorithm<T> dfs)
         {
             _dfs = dfs;
         }
 
-        public List<GraphComponent> FindComponents(IGraph graph)
+        public List<GraphComponent<T>> FindComponents(IGraph<T> graph)
         {
-            List<GraphComponent> components = new List<GraphComponent>();
+            List<GraphComponent<T>> components = new List<GraphComponent<T>>();
             bool[] visited = new bool[graph.Vertices.Count];
-            Dictionary<Vertex, int> vertexOrder = graph.Vertices
+            Dictionary<Vertex<T>, int> vertexOrder = graph.Vertices
                 .Select((item, i) => (Vertice: item, OrderedIndex: i)).ToList()
                 .ToDictionary(v => v.Vertice, v => v.OrderedIndex);
 
@@ -28,7 +29,7 @@ namespace DataStructures.Graphs.Alg
             {
                 if (!visited[vertexOrder[graphVertex]])
                 {
-                    GraphComponent component = new GraphComponent();
+                    GraphComponent<T> component = new GraphComponent<T>();
 
                     _dfs.TraverseGraphFrom(graph, graphVertex, v =>
                     {
@@ -43,8 +44,8 @@ namespace DataStructures.Graphs.Alg
         }
     }
 
-    public class GraphComponent
+    public class GraphComponent<T>
     {
-        public List<Vertex> Vertices { get; set; } = new List<Vertex>();
+        public List<Vertex<T>> Vertices { get; set; } = new List<Vertex<T>>();
     }
 }

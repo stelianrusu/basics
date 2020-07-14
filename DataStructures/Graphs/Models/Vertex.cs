@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataStructures.Graphs.Models.Generics;
 
 namespace DataStructures.Graphs.Models
 {
-    public class Vertex
+    public class Vertex : Vertex<string>
     {
-        public string Label { get; internal set; }
-        public IList<Vertex> Neighbors { get; set; } = new List<Vertex>();
     }
 }
