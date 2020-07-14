@@ -20,7 +20,7 @@ namespace Basics.AlgoTests
         [Fact]
         public void TestRecursiveDFS()
         {
-            IGraph graph = new GraphWithNeighbors();
+            IGraph graph = new BidirectionalGraphWithNeighbors();
             var vertices = GraphGenerator.GenerateVertices(10);
 
             vertices[0].Neighbors = new [] { vertices[1], vertices[2]};
@@ -29,12 +29,11 @@ namespace Basics.AlgoTests
             var visitedVertices = new List<Vertex>();
 
             DFSRecursive visitor = new DFSRecursive();
-            visitor.OnVertexVisited += (sender, v) => {
+            visitor.TraverseGraphFrom(graph, graph.Vertices[0], v =>
+            {
                 _output.WriteLine(v.Label);
                 visitedVertices.Add(v);
-            };
-            visitor.TraverseGraphFrom(graph, graph.Vertices[0]);
-
+            });
 
             Assert.Equal(3,visitedVertices.Count);
 
@@ -44,7 +43,7 @@ namespace Basics.AlgoTests
         [Fact]
         public void TestDFSWithStack()
         {
-            IGraph graph = new GraphWithNeighbors();
+            IGraph graph = new BidirectionalGraphWithNeighbors();
             var vertices = GraphGenerator.GenerateVertices(10);
 
             vertices[0].Neighbors = new[] { vertices[1], vertices[2] };
@@ -56,14 +55,35 @@ namespace Basics.AlgoTests
             DFSWithStack visitor = new DFSWithStack();
             var visitedVertices = new List<Vertex>();
 
-            visitor.OnVertexVisited += (sender, v) => {
+            visitor.TraverseGraphFrom(graph, vertices[0], v =>
+            {
                 _output.WriteLine(v.Label);
                 visitedVertices.Add(v);
-            };
-
-            visitor.TraverseGraphFrom(graph, vertices[0]);
+            });
 
             Assert.Equal(6, visitedVertices.Count);
+
+        }
+
+
+
+        [Fact]
+        public void TestFindComponents()
+        {
+            IGraph graph = new BidirectionalGraphWithNeighbors();
+            var vertices = GraphGenerator.GenerateVertices(10);
+
+            vertices[0].Neighbors = new[] { vertices[1], vertices[2] };
+            vertices[2].Neighbors = new[] {  vertices[3] };
+            vertices[6].Neighbors = new[] { vertices[4], vertices[5] };
+            vertices[8].Neighbors = new[] { vertices[7] };
+
+            graph.AddVertices(vertices);
+
+            ComponentFinder componentFinder = new ComponentFinder(new DFSRecursive());
+            List<GraphComponent> graphComponents = componentFinder.FindComponents(graph);
+
+            Assert.Equal(4, graphComponents.Count);
 
         }
     }

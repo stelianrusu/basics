@@ -10,32 +10,26 @@ namespace DataStructures.Graphs.Alg
         private bool[] _visited;
         private Dictionary<Vertex, int> _vertexOrder;
 
-        public event EventHandler<Vertex> OnVertexVisited;
-
-        public void TraverseGraphFrom(IGraph graph, Vertex start)
+        public void TraverseGraphFrom(IGraph graph, Vertex start, Action<Vertex> onVisitAction)
         {
             this._visited = new bool[graph.Vertices.Count];
             this._vertexOrder = graph.Vertices
                 .Select((item, i) => (Vertice: item, OrderedIndex: i)).ToList()
                 .ToDictionary(v => v.Vertice, v => v.OrderedIndex);
             
-            Recursion(start);
+            Recursion(start, onVisitAction);
         }
 
-        private void Recursion(Vertex currentVertex)
+        private void Recursion(Vertex currentVertex, Action<Vertex> onVisitAction)
         {
             if (_visited[_vertexOrder[currentVertex]])
                     return;
 
-            VisitVertex(currentVertex);
+            onVisitAction(currentVertex);
             _visited[_vertexOrder[currentVertex]] = true;
             foreach (var neighbor in currentVertex.Neighbors)
-                Recursion(neighbor);
+                Recursion(neighbor, onVisitAction);
         }
 
-        private void VisitVertex(Vertex currentVertex)
-        {
-            OnVertexVisited?.Invoke(this, currentVertex);
-        }
     }
 }

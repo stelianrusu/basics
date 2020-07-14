@@ -8,9 +8,7 @@ namespace DataStructures.Graphs.Alg
     public class DFSWithStack : IDFSAlgorithm
     {
 
-        public event EventHandler<Vertex> OnVertexVisited;
-
-        public void TraverseGraphFrom(IGraph graph, Vertex start)
+        public void TraverseGraphFrom(IGraph graph, Vertex start, Action<Vertex> onVisitAction)
         {
             var visited = new bool[graph.Vertices.Count];
             var vertexOrder = graph.Vertices
@@ -24,18 +22,13 @@ namespace DataStructures.Graphs.Alg
             {
                 var vertex = vertexStack.Pop();
                 visited[vertexOrder[vertex]] = true;
-                VisitVertex(vertex);
+                onVisitAction(vertex);
                 foreach (var vertexNeighbor in vertex.Neighbors)
                 {
                     if(!visited[vertexOrder[vertexNeighbor]])
                         vertexStack.Push(vertexNeighbor);
                 }
             }
-        }
-
-        private void VisitVertex(Vertex currentVertex)
-        {
-            OnVertexVisited?.Invoke(this, currentVertex);
         }
     }
 }

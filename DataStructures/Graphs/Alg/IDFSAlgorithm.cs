@@ -5,7 +5,6 @@ namespace DataStructures.Graphs.Alg
 {
     public interface IDFSAlgorithm
     {
-        event EventHandler<Vertex> OnVertexVisited;
-        void TraverseGraphFrom(IGraph graph, Vertex start);
+        void TraverseGraphFrom(IGraph graph, Vertex start, Action<Vertex> onVisitAction);
     }
 }
