@@ -23,10 +23,11 @@ namespace DataStructures.Graphs.Alg
             if (visitedDictionary[currentVertex])
                     return;
 
-            onVisitAction(currentVertex);
             visitedDictionary[currentVertex] = true;
             foreach (var neighbor in currentVertex.Neighbors)
                 Recursion(neighbor, onVisitAction);
+            onVisitAction(currentVertex);
+
         }
 
     }

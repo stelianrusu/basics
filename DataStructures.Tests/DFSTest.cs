@@ -119,21 +119,59 @@ X0X00
 X000X";
             TwoDMaze m = ReadMazeFromString(mazeString);
 
-            TwoDMaze maze = new TwoDMaze()
-            {
-                Fields = new MazeField[2, 2]
-                {
-                    {
-                        new MazeField {FieldType = FieldType.Start, Label = "S"},
-                        new MazeField {FieldType = FieldType.Clear, Label = "0,1"}
-                    },
-                    {
-                        new MazeField {FieldType = FieldType.Obstacle, Label = "X"},
-                        new MazeField {FieldType = FieldType.End, Label = "E"}
-                    }
-                }
-            };
             List<MazeField> path = mazer.Find(m);
+        }
+
+
+        [Fact]
+        public void TestTopSort()
+        {
+            TopSort<string> topSort = new TopSort<string>();
+
+            string graphString = @"
+C-A,B
+B-D
+A-D
+E-A,D,F
+D-G,H
+F-K,J
+G-I
+H-I,J
+I-L
+J-L,M
+K-J
+L-
+M-";
+            IGraph<string> graph = ReadDirectedGraphFromString(graphString);
+
+            IList<Vertex<string>> topologicalOrder = topSort.GetTopologicalOrder(graph);
+        }
+
+        private IGraph<string> ReadDirectedGraphFromString(string graphString)
+        {
+            DirectedGraph<string> graph = new DirectedGraph<string>();
+            var lines = graphString.Split(Environment.NewLine).Where(s => !string.IsNullOrEmpty(s)).ToList();
+
+            foreach (var line in lines)
+            {
+                string[] strings = line.Split("-");
+                Vertex<string> v = new Vertex<string> {Value = strings[0]};
+                graph.Vertices.Add(v);
+            }
+
+            foreach (var line in lines)
+            {
+                string[] strings = line.Split("-");
+                Vertex<string> vertex = graph.Vertices.First(v => v.Value == strings[0]);
+
+                foreach (string neighbour in strings[1].Split(","))
+                {
+                    if(neighbour != "")
+                        vertex.Neighbors.Add(graph.Vertices.First(v => v.Value == neighbour));
+                }
+            }
+
+            return graph;
         }
 
         private TwoDMaze ReadMazeFromString(string mazeString)
