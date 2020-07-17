@@ -44,8 +44,9 @@ namespace DataStructures.Graphs.Alg
             {
                 Vertex<T> visitedVertex = verticesQueue.Dequeue();
 
-                foreach (var vertexNeighbor in visitedVertex.Neighbors)
+                foreach (var edge in graph.GetEdgesFrom(visitedVertex))
                 {
+                    var vertexNeighbor = edge.To;
                     if (!visitedDictionary[vertexNeighbor])
                     {
                         visitedDictionary[vertexNeighbor] = true;

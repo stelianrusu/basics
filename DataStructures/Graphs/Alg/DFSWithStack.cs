@@ -22,10 +22,10 @@ namespace DataStructures.Graphs.Alg
                 var vertex = vertexStack.Pop();
                 visitedDictionary[vertex] = true;
                 onVisitAction(vertex);
-                foreach (var vertexNeighbor in vertex.Neighbors)
+                foreach (var edge in graph.GetEdgesFrom(vertex))
                 {
-                    if(!visitedDictionary[vertexNeighbor])
-                        vertexStack.Push(vertexNeighbor);
+                    if(!visitedDictionary[edge.To])
+                        vertexStack.Push(edge.To);
                 }
             }
         }

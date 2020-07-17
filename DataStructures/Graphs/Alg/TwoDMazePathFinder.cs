@@ -36,7 +36,7 @@ namespace DataStructures.Graphs.Alg
 
         private IGraph<MazeField> BuildGraphFromMaze(TwoDMaze maze)
         {
-            BidirectionalGraphWithNeighbors<MazeField> graph = new BidirectionalGraphWithNeighbors<MazeField>();
+            GraphAdjList<MazeField> graph = new GraphAdjList<MazeField>();
 
             List<Vertex<MazeField>> vertices = new List<Vertex<MazeField>>();
 
@@ -73,7 +73,21 @@ namespace DataStructures.Graphs.Alg
                         if (nextX >= W || nextX < 0) continue;
 
                         if (maze.Fields[nextX, nextY].FieldType == FieldType.Clear)
-                            verticeGrid[i, j].Neighbors.Add(verticeGrid[nextX, nextY]);
+                        {
+                            Edge<MazeField> edgeTo = new Edge<MazeField>()
+                            {
+                                From = verticeGrid[i, j],
+                                To = verticeGrid[nextX, nextY]
+                            };
+
+                            Edge<MazeField> edgeFrom = new Edge<MazeField>()
+                            {
+                                To = verticeGrid[i, j],
+                                From = verticeGrid[nextX, nextY]
+                            };
+
+                            graph.AddEdges(new []{ edgeFrom, edgeTo});
+                        }
                     }
 
                     vertices.Add(verticeGrid[i,j]);

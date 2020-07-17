@@ -15,17 +15,17 @@ namespace DataStructures.Graphs.Alg
         {
             visitedDictionary = graph.ConstructVisitedDictionary();
 
-            Recursion(start, onVisitAction);
+            Recursion(graph, start, onVisitAction);
         }
 
-        private void Recursion(Vertex<T> currentVertex, Action<Vertex<T>> onVisitAction)
+        private void Recursion(IGraph<T> graph, Vertex<T> currentVertex, Action<Vertex<T>> onVisitAction)
         {
             if (visitedDictionary[currentVertex])
-                    return;
+                return;
 
             visitedDictionary[currentVertex] = true;
-            foreach (var neighbor in currentVertex.Neighbors)
-                Recursion(neighbor, onVisitAction);
+            foreach (var edge in graph.GetEdgesFrom(currentVertex))
+                Recursion(graph, edge.To, onVisitAction);
             onVisitAction(currentVertex);
 
         }

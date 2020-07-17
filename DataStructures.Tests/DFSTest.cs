@@ -22,12 +22,12 @@ namespace Basics.AlgoTests
         [Fact]
         public void TestRecursiveDFS()
         {
-            var graph = new BidirectionalGraphWithNeighbors<string>();
-            var vertices = GraphGenerator.GenerateVertices(10);
-
-            vertices[0].Neighbors = new[] { vertices[1], vertices[2] };
-
-            graph.AddVertices(vertices);
+            string graphString = @"
+0-1,2
+1-0
+2-0";
+            var graph = ReadDirectedGraphFromString(graphString);
+            
             var visitedVertices = new List<Vertex<string>>();
 
             DFSRecursive<string> visitor = new DFSRecursive<string>();
@@ -45,19 +45,19 @@ namespace Basics.AlgoTests
         [Fact]
         public void TestDFSWithStack()
         {
-            var graph = new BidirectionalGraphWithNeighbors<string>();
-            var vertices = GraphGenerator.GenerateVertices(10);
-
-            vertices[0].Neighbors = new[] { vertices[1], vertices[2] };
-            vertices[2].Neighbors = new[] { vertices[2], vertices[3] };
-            vertices[3].Neighbors = new[] { vertices[4], vertices[5] };
-
-            graph.AddVertices(vertices);
+            string graphString = @"
+0-1,2
+1-0
+2-0,3
+3-4,5
+4-3
+5-3";
+            var graph = ReadDirectedGraphFromString(graphString);
 
             DFSWithStack<string> visitor = new DFSWithStack<string>();
             var visitedVertices = new List<Vertex<string>>();
 
-            visitor.TraverseGraphFrom(graph, vertices[0], v =>
+            visitor.TraverseGraphFrom(graph, graph.Vertices[0], v =>
             {
                 _output.WriteLine(v.Value);
                 visitedVertices.Add(v);
@@ -72,15 +72,18 @@ namespace Basics.AlgoTests
         [Fact]
         public void TestFindComponents()
         {
-            var graph = new BidirectionalGraphWithNeighbors<string>();
-            var vertices = GraphGenerator.GenerateVertices(10);
-
-            vertices[0].Neighbors = new[] { vertices[1], vertices[2] };
-            vertices[2].Neighbors = new[] { vertices[3] };
-            vertices[6].Neighbors = new[] { vertices[4], vertices[5] };
-            vertices[8].Neighbors = new[] { vertices[7] };
-
-            graph.AddVertices(vertices);
+            string graphString = @"
+0-1,2
+1-0
+2-0,3
+3-2
+4-6
+5-6
+6-4,5
+7-8
+8-7
+9-";
+            var graph = ReadDirectedGraphFromString(graphString);
 
             ComponentFinder<string> componentFinder = new ComponentFinder<string>(new DFSRecursive<string>());
             List<GraphComponent<string>> graphComponents = componentFinder.FindComponents(graph);
@@ -92,18 +95,21 @@ namespace Basics.AlgoTests
         [Fact]
         public void TestFindShortestPath()
         {
-            var graph = new BidirectionalGraphWithNeighbors<string>();
-            var vertices = GraphGenerator.GenerateVertices(10);
+            string graphString = @"
+0-1,2
+1-0
+2-0,3
+3-2,5,6
+4-6
+5-6,3
+6-";
+            var graph = ReadDirectedGraphFromString(graphString);
 
-            vertices[0].Neighbors = new[] { vertices[1], vertices[2] };
-            vertices[2].Neighbors = new[] { vertices[3] };
-            vertices[6].Neighbors = new[] { vertices[4], vertices[5] };
-            vertices[3].Neighbors = new[] { vertices[5], vertices[6] };
-
-            graph.AddVertices(vertices);
             var pathAlg = new ShortestPath<string>();
-            var path = pathAlg.FindPath(graph, vertices[0], vertices[7]);
+            var path = pathAlg.FindPath(graph, graph.Vertices[0], graph.Vertices[6]);
+            Assert.Equal(3, path.Count);
         }
+
 
         [Fact]
         public void TestTwoDMazePathFinder()
@@ -120,7 +126,9 @@ X000X";
             TwoDMaze m = ReadMazeFromString(mazeString);
 
             List<MazeField> path = mazer.Find(m);
+            Assert.Equal(11, path.Count);
         }
+
 
 
         [Fact]
@@ -145,11 +153,32 @@ M-";
             IGraph<string> graph = ReadDirectedGraphFromString(graphString);
 
             IList<Vertex<string>> topologicalOrder = topSort.GetTopologicalOrder(graph);
+            Assert.Equal("E", topologicalOrder[0].Value);
+            Assert.Equal("L", topologicalOrder[11].Value);
+            Assert.Equal("M", topologicalOrder[12].Value);
+        }
+
+        [Fact]
+        public void TestShortestPaths()
+        {
+            string graphString = @"
+A:B_3,C_6
+B:C_4,D_4,E_11
+C:D_8,G_11
+D:E_-4,F_5,G_2
+E:H_9
+F:H_1
+G:H_2
+H:";
+           var graph = ReadDirectedWeightedGraphFromString(graphString);
+           WagShortestPath<string> alg = new WagShortestPath<string>();
+           var distances = alg.CalculateDistances(graph, graph.Vertices[1]);
+
         }
 
         private IGraph<string> ReadDirectedGraphFromString(string graphString)
         {
-            DirectedGraph<string> graph = new DirectedGraph<string>();
+            var graph = new GraphAdjList<string>();
             var lines = graphString.Split(Environment.NewLine).Where(s => !string.IsNullOrEmpty(s)).ToList();
 
             foreach (var line in lines)
@@ -166,8 +195,11 @@ M-";
 
                 foreach (string neighbour in strings[1].Split(","))
                 {
-                    if(neighbour != "")
-                        vertex.Neighbors.Add(graph.Vertices.First(v => v.Value == neighbour));
+                    if (neighbour != "")
+                    {
+                        var edge = new Edge<string>(){From = vertex, To = graph.Vertices.First(v => v.Value == neighbour) };
+                        graph.AddEdges(new [] { edge });
+                    }
                 }
             }
 
@@ -207,5 +239,44 @@ M-";
 
             return maze;
         }
+
+        private IGraph<string> ReadDirectedWeightedGraphFromString(string graphString)
+        {
+            var graph = new GraphAdjList<string>();
+            var lines = graphString.Split(Environment.NewLine).Where(s => !string.IsNullOrEmpty(s)).ToList();
+
+            foreach (var line in lines)
+            {
+                string[] strings = line.Split(":");
+                Vertex<string> v = new Vertex<string> { Value = strings[0] };
+                graph.Vertices.Add(v);
+            }
+
+            foreach (var line in lines)
+            {
+                string[] strings = line.Split(":");
+                var vertex = graph.Vertices.First(v => v.Value == strings[0]);
+
+                var edges = new List<Edge<string>>();
+                foreach (string neighbour in strings[1].Split(","))
+                {
+                    if (neighbour != "")
+                    {
+                        var edgeStrParts = neighbour.Split("_");
+                        edges.Add(new Edge<string>()
+                        {
+                            From = vertex,
+                            To = graph.Vertices.First(v => v.Value == edgeStrParts[0]),
+                            Weight = int.Parse(edgeStrParts[1])
+                        });
+                    }
+                }
+
+                graph.AddEdges(edges);
+            }
+
+            return graph;
+        }
     }
+
 }
