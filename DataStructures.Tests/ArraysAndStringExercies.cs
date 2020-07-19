@@ -97,6 +97,36 @@ namespace Basics.AlgoTests
             Assert.False(result);
         }
 
+        [Fact]
+        public void RomanNumberConvertor()
+        {
+            RomanNumberConvertor conv = new RomanNumberConvertor();
+            Assert.Equal(1, conv.ConvertToInt("I"));
+            Assert.Equal(2, conv.ConvertToInt("II"));
+            Assert.Equal(3, conv.ConvertToInt("III"));
+            Assert.Equal(4, conv.ConvertToInt("IV"));
+            Assert.Equal(5, conv.ConvertToInt("V"));
+            Assert.Equal(6, conv.ConvertToInt("VI"));
+            Assert.Equal(7, conv.ConvertToInt("VII"));
+            Assert.Equal(8, conv.ConvertToInt("VIII"));
+            Assert.Equal(9, conv.ConvertToInt("IX"));
+            Assert.Equal(10, conv.ConvertToInt("X"));
+            Assert.Equal(11, conv.ConvertToInt("XI"));
+            Assert.Equal(11, conv.ConvertToInt("XI"));
+            Assert.Equal(14, conv.ConvertToInt("XIV"));
+            Assert.Equal(16, conv.ConvertToInt("XVI"));
+            Assert.Equal(19, conv.ConvertToInt("XIX"));
+            Assert.Equal(21, conv.ConvertToInt("XXI"));
+        }
+
+        [Fact]
+        public void IsAnagram()
+        {
+            IsAnagram angrm = new IsAnagram();
+
+            Assert.True(angrm.Check("geeksforgeeks", "forgeeksgeeks"));
+            Assert.False(angrm.Check("allergy", "allergic"));
+        }
         public List<string> ReadInput()
         {
             int phraseCnt = int.Parse(Console.ReadLine());
@@ -104,6 +134,7 @@ namespace Basics.AlgoTests
             for (int i = 0; i < phraseCnt; i++)
             {
                 inputList.Add(Console.ReadLine());
+                
             }
 
             return inputList;
