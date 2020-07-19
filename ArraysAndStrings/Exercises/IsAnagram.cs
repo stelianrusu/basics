@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArraysAndStrings.Exercises
 {
+    // https://practice.geeksforgeeks.org/problems/anagram/0
     public class IsAnagram
     {
         public bool Check(string s1, string s2)

@@ -127,17 +127,33 @@ namespace Basics.AlgoTests
             Assert.True(angrm.Check("geeksforgeeks", "forgeeksgeeks"));
             Assert.False(angrm.Check("allergy", "allergic"));
         }
-        public List<string> ReadInput()
+
+        [Fact]
+        public void LongestSubstring()
+        {
+            LongestSubstring ls = new LongestSubstring();
+            Assert.Equal("CDGH", ls.Find("ABCDGH", "ACDGHR"));
+            Assert.Equal("CDGH", ls.Find("ABCDGH", "ABRCDGH"));
+            Assert.Equal("A", ls.Find("ABC", "AC"));
+            Assert.Equal("", ls.Find("A", "B"));
+        }
+
+        [Fact]
+        public void DupCleaner()
+        {
+            DupCleaner dc = new DupCleaner();
+            Assert.Equal("geksfor",dc.RemoveDups("geeksforgeeks"));
+            Assert.Equal("geks for", dc.RemoveDups("geeks for geeks"));
+        }
+        public void ReadInput()
         {
             int phraseCnt = int.Parse(Console.ReadLine());
-            List<string> inputList = new List<string>();
             for (int i = 0; i < phraseCnt; i++)
             {
-                inputList.Add(Console.ReadLine());
+                var line = Console.ReadLine();
                 
             }
 
-            return inputList;
         }
     }
 }
