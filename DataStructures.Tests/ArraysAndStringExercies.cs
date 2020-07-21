@@ -145,15 +145,53 @@ namespace Basics.AlgoTests
             Assert.Equal("geksfor",dc.RemoveDups("geeksforgeeks"));
             Assert.Equal("geks for", dc.RemoveDups("geeks for geeks"));
         }
-        public void ReadInput()
+
+        [Fact]
+        public void LongestDistinctSubstring()
         {
-            int phraseCnt = int.Parse(Console.ReadLine());
-            for (int i = 0; i < phraseCnt; i++)
-            {
-                var line = Console.ReadLine();
-                
-            }
+            LongestDistinctSubstring lds = new LongestDistinctSubstring();
+            Assert.Equal("abcdef", lds.Find("abababcdefababcdab"));
+            Assert.Equal("eksforg", lds.Find("geeksforgeeks"));
+            Assert.Equal("bcfade", lds.Find("abcfade"));
+            Assert.Equal("a", lds.Find("a"));
+            Assert.Equal("a", lds.Find("aa"));
+        }
+
+        [Fact]
+        public void MakeAnagram()
+        {
+            Assert.Equal(4, ArraysAndStrings.Exercises.MakeAnagram.makeAnagram("cde", "abc"));
+        }
+
+        [Fact]
+        public void alternatingCharacters()
+        {
+            Assert.Equal(3, ArraysAndStrings.Exercises.MakeAnagram.alternatingCharacters("AAAA"));
+            Assert.Equal(4, ArraysAndStrings.Exercises.MakeAnagram.alternatingCharacters("BBBBB"));
+            Assert.Equal(0, ArraysAndStrings.Exercises.MakeAnagram.alternatingCharacters("ABABABAB"));
+            Assert.Equal(0, ArraysAndStrings.Exercises.MakeAnagram.alternatingCharacters("BABABA"));
+            Assert.Equal(4, ArraysAndStrings.Exercises.MakeAnagram.alternatingCharacters("AAABBB"));
+        }
+
+        [Fact]
+        public void SherlockValidString()
+        {
+            Assert.Equal("NO", ArraysAndStrings.Exercises.MakeAnagram.isValid("aabbcd"));
+            Assert.Equal("NO", ArraysAndStrings.Exercises.MakeAnagram.isValid("aabbccddeefghi"));
+            Assert.Equal("YES", ArraysAndStrings.Exercises.MakeAnagram.isValid("abcdefghhgfedecba"));
+        }
+
+        [Fact]
+        public void SpecialStringAgain()
+        {
+            Assert.Equal(1, ArraysAndStrings.Exercises.MakeAnagram.substrCount(1, "a"));
+            Assert.Equal(9, ArraysAndStrings.Exercises.MakeAnagram.substrCount(0, "aabaa"));
+            Assert.Equal(7, ArraysAndStrings.Exercises.MakeAnagram.substrCount(0,"asasd"));
+            Assert.Equal(10, ArraysAndStrings.Exercises.MakeAnagram.substrCount(0, "abcbaba"));
+            Assert.Equal(10, ArraysAndStrings.Exercises.MakeAnagram.substrCount(0, "aaaa"));
 
         }
+
+
     }
 }
