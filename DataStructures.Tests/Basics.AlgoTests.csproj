@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -17,6 +17,7 @@
     <ProjectReference Include="..\ArraysAndStrings\ArraysAndStrings.csproj" />
     <ProjectReference Include="..\DataStructures\DataStructures.csproj" />
     <ProjectReference Include="..\LinkedLists\LinkedLists.csproj" />
+    <ProjectReference Include="..\StacksAndQueues\StacksAndQueues.csproj" />
   </ItemGroup>
 
 </Project>
