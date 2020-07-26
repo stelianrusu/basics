@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinkedLists", "LinkedLists\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StacksAndQueues", "StacksAndQueues\StacksAndQueues.csproj", "{0CF88AB5-C3A2-4056-9AE9-BD6AE5998E51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphs", "Graphs\Graphs.csproj", "{D9E56519-645A-43B1-80AF-65491D334C33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0CF88AB5-C3A2-4056-9AE9-BD6AE5998E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CF88AB5-C3A2-4056-9AE9-BD6AE5998E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CF88AB5-C3A2-4056-9AE9-BD6AE5998E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9E56519-645A-43B1-80AF-65491D334C33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E56519-645A-43B1-80AF-65491D334C33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E56519-645A-43B1-80AF-65491D334C33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E56519-645A-43B1-80AF-65491D334C33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
